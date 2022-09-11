@@ -25,6 +25,17 @@ def predict_api():
     return jsonify(output[0])
 
 
+@app.route('/predict',methods=['POST'])
+def predict():
+    data = [float(x) for x in request.form.values()]
+    input_data = scaler.transform(np.array(data).reshape(1,-1))
+    print(input_data)
+    output = model.predict(input_data)[0]
+    print(output)
+    return render_template('home.html', prediction_text="The House price Prediction is : {}".format(output))
+    
+
+
 if __name__=="__main__":
     app.run(debug=True)
     
